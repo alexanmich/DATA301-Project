@@ -11,3 +11,41 @@ COVID_data <- read.csv("covid_19_data_portal.csv")
 #All data of class economic
 COVID_data_economic <- COVID_data[which(COVID_data$class == "Economic"), ]
 ```
+
+```{r}
+library(ggplot2)
+library(ggfortify)
+#All card transactions of any type
+card_transactions <- COVID_data_economic[which(COVID_data_economic$indicator_name == "Card transaction spend by industry"),]
+```
+
+```{r}
+#plotting the retail card transactions
+card_transactions_retail_actual <- card_transactions[which(card_transactions$series_name=="Retail (actual)"),]
+retail_time_series <- ts(card_transactions_retail_actual$value,start=2003, frequency = 12)
+autoplot(retail_time_series) +
+  ggtitle("Monthly Card Transactions: Retail") +
+  ylab("Money")
+```
+
+```{r}
+#plotting the services card transactions
+card_transactions_services_actual <- card_transactions[which(card_transactions$series_name=="Services (actual)"),]
+services_time_series <- ts(card_transactions_services_actual$value,start=2003, frequency = 12)
+autoplot(services_time_series) +
+  ggtitle("Monthly Card Transactions: Services") +
+  ylab("Money")
+```
+
+```{r}
+#plotting the non-retail card transactions
+card_transactions_non_retail_actual <- card_transactions[which(card_transactions$series_name=="Non-retail (actual)"),]
+non_retail_time_series <- ts(card_transactions_non_retail_actual$value,start=2003, frequency = 12)
+autoplot(non_retail_time_series) +
+  ggtitle("Monthly Card Transactions: Non-retail") +
+  ylab("Money")
+```
+
+
+
+
