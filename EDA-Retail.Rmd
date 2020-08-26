@@ -22,23 +22,32 @@ card_transactions <- COVID_data_economic[which(COVID_data_economic$indicator_nam
 ```{r}
 #plotting the retail card transactions
 card_transactions_retail_actual <- card_transactions[which(card_transactions$series_name=="Retail (actual)"),]
-retail_time_series <- ts(card_transactions_retail_actual$value,start=2003, frequency = 12)
+retail_time_series <- ts(card_transactions_retail_actual$value,start=c(2002,10),end=c(2020,6), frequency = 12)
 autoplot(retail_time_series) +
   ggtitle("Monthly Card Transactions: Retail") +
   ylab("Money")
 ```
 
 ```{r}
-#plotting the services card transactions
+#First attempt at plotting the services card transactions. Very strange results pre 2007
 card_transactions_services_actual <- card_transactions[which(card_transactions$series_name=="Services (actual)"),]
-services_time_series <- ts(card_transactions_services_actual$value,start=2003, frequency = 12)
+services_time_series <- ts(card_transactions_services_actual$value,start=c(2002,10), end=c(2020,6), frequency = 12)
 autoplot(services_time_series) +
   ggtitle("Monthly Card Transactions: Services") +
   ylab("Money")
 ```
 
+
 ```{r}
-#plotting the non-retail card transactions
+#Short term solution, look at services card transactions data post 2006
+services_time_series_2006 <- ts(card_transactions_services_actual$value[52:213], start=c(2007, 1), end=c(2020,6), frequency=12)
+autoplot(services_time_series_2006) +
+  ggtitle("Monthly Card Transactions: Services") +
+  ylab("Money")
+```
+
+```{r}
+#First attempt at plotting the non-retail card transactions. Very strange results pre 2010
 card_transactions_non_retail_actual <- card_transactions[which(card_transactions$series_name=="Non-retail (actual)"),]
 non_retail_time_series <- ts(card_transactions_non_retail_actual$value,start=2003, frequency = 12)
 autoplot(non_retail_time_series) +
@@ -46,6 +55,12 @@ autoplot(non_retail_time_series) +
   ylab("Money")
 ```
 
-
+```{r}
+# Short term solution, look at non-retail card transactions data post 2010
+non_retail_time_series_2011 <- ts(card_transactions_non_retail_actual$value[100:213],start=c(2011,1), end=c(2020,6), frequency = 12)
+autoplot(non_retail_time_series_2011) +
+  ggtitle("Monthly Card Transactions: Non-retail") +
+  ylab("Money")
+```
 
 
