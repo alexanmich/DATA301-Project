@@ -4,6 +4,8 @@ author: "Michelle Alexander"
 output: html_document
 ---
 
+## Setting up data 
+
 ```{r}
 #All data from the StatNZ data portal
 COVID_data <- read.csv("covid_19_data_portal.csv")
@@ -16,12 +18,15 @@ COVID_data_economic <- COVID_data[which(COVID_data$class == "Economic"), ]
 library(ggplot2)
 library(ggfortify)
 #All card transactions of any type
-card_transactions <- COVID_data_economic[which(COVID_data_economic$indicator_name == "Card transaction spend by industry"),]
+card_transactions_industrty <- COVID_data_economic[which(COVID_data_economic$indicator_name == "Card transaction spend by industry"),]
+card_transactions_total <-COVID_data_economic[which(COVID_data_economic$indicator_name == "Card transaction total spend")]
 ```
+
+## Plotting Card Transactions By Industry
 
 ```{r}
 #plotting the retail card transactions
-card_transactions_retail_actual <- card_transactions[which(card_transactions$series_name=="Retail (actual)"),]
+card_transactions_retail_actual <- card_transactions_industrty[which(card_transactions_industrty$series_name=="Retail (actual)"),]
 retail_time_series <- ts(card_transactions_retail_actual$value,start=c(2002,10),end=c(2020,6), frequency = 12)
 autoplot(retail_time_series) +
   ggtitle("Monthly Card Transactions: Retail") +
@@ -30,7 +35,7 @@ autoplot(retail_time_series) +
 
 ```{r}
 #First attempt at plotting the services card transactions. Very strange results pre 2007
-card_transactions_services_actual <- card_transactions[which(card_transactions$series_name=="Services (actual)"),]
+card_transactions_services_actual <- card_transactions_industrty[which(card_transactions_industrty$series_name=="Services (actual)"),]
 services_time_series <- ts(card_transactions_services_actual$value,start=c(2002,10), end=c(2020,6), frequency = 12)
 autoplot(services_time_series) +
   ggtitle("Monthly Card Transactions: Services") +
@@ -48,7 +53,7 @@ autoplot(services_time_series_2006) +
 
 ```{r}
 #First attempt at plotting the non-retail card transactions. Very strange results pre 2010
-card_transactions_non_retail_actual <- card_transactions[which(card_transactions$series_name=="Non-retail (actual)"),]
+card_transactions_non_retail_actual <- card_transactions_industrty[which(card_transactions_industrty$series_name=="Non-retail (actual)"),]
 non_retail_time_series <- ts(card_transactions_non_retail_actual$value,start=2003, frequency = 12)
 autoplot(non_retail_time_series) +
   ggtitle("Monthly Card Transactions: Non-retail") +
@@ -63,4 +68,14 @@ autoplot(non_retail_time_series_2011) +
   ylab("Money")
 ```
 
+## Plotting Total Card Transactions
 
+```{r}
+#plotting total card transactions
+card_transactions_spend_actual <- card_transactions[which(card_transactions$series_name=="Spend (actual)"),]
+card_transactions_spend_actual
+#spend_time_series <- ts(card_transactions_spend_actual$value,start=c(2002,10),end=c(2020,6), frequency = 12)
+#autoplot(spend_time_series) +
+#  ggtitle("Monthly Card Transactions: Retail") +
+#  ylab("Money")
+```
