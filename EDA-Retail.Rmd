@@ -19,7 +19,7 @@ library(ggplot2)
 library(ggfortify)
 #All card transactions of any type
 card_transactions_industrty <- COVID_data_economic[which(COVID_data_economic$indicator_name == "Card transaction spend by industry"),]
-card_transactions_total <-COVID_data_economic[which(COVID_data_economic$indicator_name == "Card transaction total spend")]
+card_transactions_total <-COVID_data_economic[which(COVID_data_economic$indicator_name == "Card transaction total spend"),]
 ```
 
 ## Plotting Card Transactions By Industry
@@ -72,10 +72,36 @@ autoplot(non_retail_time_series_2011) +
 
 ```{r}
 #plotting total card transactions
-card_transactions_spend_actual <- card_transactions[which(card_transactions$series_name=="Spend (actual)"),]
-card_transactions_spend_actual
-#spend_time_series <- ts(card_transactions_spend_actual$value,start=c(2002,10),end=c(2020,6), frequency = 12)
-#autoplot(spend_time_series) +
-#  ggtitle("Monthly Card Transactions: Retail") +
-#  ylab("Money")
+card_transactions_spend_actual <- card_transactions_total[which(card_transactions_total$series_name=="Spend (actual)"),]
+spend_time_series <- ts(card_transactions_spend_actual$value,start=c(2002,10),end=c(2020,6), frequency = 12)
+autoplot(spend_time_series) +
+  ggtitle("Monthly Card Transactions: Total") +
+  ylab("Money")
+```
+
+```{r}
+#plotting total card transactions, seasonally adjusted
+card_transactions_seasonal_adj <- card_transactions_total[which(card_transactions_total$series_name=="Spend (seasonally adjusted)"),]
+season_time_series <- ts(card_transactions_seasonal_adj$value,start=c(2002,10),end=c(2020,6), frequency = 12)
+autoplot(season_time_series) +
+  ggtitle("Monthly Card Transactions: Seasonally Adjusted") +
+  ylab("Money")
+```
+
+```{r}
+#First attempt at plotting total card transactions, Count of transactions
+card_transactions_count <- card_transactions_total[which(card_transactions_total$series_name=="Transactions (count)"),]
+count_time_series <- ts(card_transactions_count$value,start=c(2002,10),end=c(2020,6), frequency = 12)
+autoplot(count_time_series) +
+  ggtitle("Monthly Card Transactions: Count") +
+  ylab("Count")
+
+```
+
+```{r}
+#short term solution of Count of transactions
+count_time_series <- ts(card_transactions_count$value[148:213],start=c(2015,1),end=c(2020,6), frequency = 12)
+autoplot(count_time_series) +
+  ggtitle("Monthly Card Transactions: Count") +
+  ylab("Count")
 ```
