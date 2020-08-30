@@ -36,6 +36,21 @@ autoplot(retail_time_series) +
 ```
 
 ```{r}
+#plotting the retail card transactions (2019-2020)
+card_transactions_retail_actual <- card_transactions_industrty[which(card_transactions_industrty$series_name=="Retail (actual)"),]
+
+retail_time_series <- ts(as.numeric(gsub(",", "", card_transactions_retail_actual$value[196:213])),start=c(2019,1),end=c(2020,6), frequency = 12)
+
+#date <- ymd(c("2020-03-25", "2020-05-13"))
+autoplot(retail_time_series) +
+  ggtitle("Monthly Card Transactions: Retail") +
+  geom_vline(xintercept= as.Date("2020-03-01"), color="red") + #march
+  geom_vline(xintercept= as.Date("2020-05-01"), color="red") + #May
+  ylab("$(Billion)")
+  
+```
+
+```{r}
 #Plotting the services card transactions
 card_transactions_services_actual <- card_transactions_industrty[which(card_transactions_industrty$series_name=="Services (actual)"),]
 
@@ -47,6 +62,19 @@ autoplot(services_time_series) +
 ```
 
 ```{r}
+#plotting the service card transactions (2019-2020)
+card_transactions_services_actual <- card_transactions_industrty[which(card_transactions_industrty$series_name=="Services (actual)"),]
+
+services_time_series <- ts(as.numeric(gsub(",", "", card_transactions_services_actual$value[196:213])),start=c(2019,1),end=c(2020,6), frequency = 12)
+
+autoplot(services_time_series) +
+  ggtitle("Monthly Card Transactions: Services") +
+  geom_vline(xintercept= as.Date("2020-03-01"), color="red") + #march
+  geom_vline(xintercept= as.Date("2020-05-01"), color="red") + #May
+  ylab("$(Million)")
+```
+
+```{r}
 #Plotting the non-retail card transactions
 card_transactions_non_retail_actual <- card_transactions_industrty[which(card_transactions_industrty$series_name=="Non-retail (actual)"),]
 
@@ -54,6 +82,18 @@ non_retail_time_series <- ts(as.numeric(gsub(",", "", card_transactions_non_reta
 
 autoplot(non_retail_time_series) +
   ggtitle("Monthly Card Transactions: Non-retail") +
+  ylab("$(Billion)")
+```
+```{r}
+#Plotting the non-retail card transactions (2019-2020)
+card_transactions_non_retail_actual <- card_transactions_industrty[which(card_transactions_industrty$series_name=="Non-retail (actual)"),]
+
+non_retail_time_series <- ts(as.numeric(gsub(",", "", card_transactions_non_retail_actual$value[196:213])),start=c(2019,1),end=c(2020,6), frequency = 12)
+
+autoplot(non_retail_time_series) +
+  ggtitle("Monthly Card Transactions: Non-retail") +
+  geom_vline(xintercept= as.Date("2020-03-01"), color="red") + #march
+  geom_vline(xintercept= as.Date("2020-05-01"), color="red") + #May
   ylab("$(Billion)")
 ```
 
